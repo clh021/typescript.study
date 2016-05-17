@@ -1,0 +1,37 @@
+<!doc html>
+<html>
+<head>
+  <title>demo</title>
+</head>
+<body>
+  <script type="text/typescript">
+    //模块的声明
+    //前端数据验证在改善用户体验上有很大作用
+    //现在我们着手解决两个问题：一个是没法复用，验证的封装和验证过程在同一个文件，验证的封装已经是可以复用的。另一个是接口和两个实现的类都直接挂接在全局变量上，假如数量一多的话，将会影响整个全局变量
+    //TypeScritp中模块给我们解决了这一问题。使用 module 关键字来定义模块，并在末尾加花括号即可用； 用export 关键字使接口、类等成员对模块外可见。
+    module Validation {   //定义模块
+      export interface StringValidator {  //声明接口对外部可以使用
+        isAcceptable(s: string): boolean;
+      }
+
+      var lettersRegexp = /^[A-Za-z]+$/;
+      var numberRegexp = /^[0-9]+$/;
+
+      export class LettersOnlyValidator implements StringValidator {  //声明类对外部可用
+        isAcceptable(s: string) {
+          return lettersRegexp.test(s);
+        }
+      }
+
+      export class ZipCodeValidator implements StringValidator {
+        isAcceptable(s: string) {
+          return s.length === 5 && numberRegexp.test(s);
+        }
+      }
+    }
+
+  </script>
+  <script src="lib/typescript.min.js"></script>
+  <script src="lib/typescript.compile.min.js"></script>
+</body>
+</html>

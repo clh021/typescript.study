@@ -1,0 +1,66 @@
+<!doc html>
+<html>
+<head>
+  <title>demo</title>
+</head>
+<body>
+  <script type="text/typescript">
+    class calc{
+      static count=10;
+      add(data1:number):number{
+        var sum=calc.count+data1;
+        return sum;
+      }
+    }
+    var test=new calc();
+    document.write("calc" + test.add(20));
+    document.write("<hr />");
+
+    //一般情况下，创建一个类后并不能直接的对属性和方法进行引用，必须对类进行实例化，即创建一个对象
+    class student{  //定义student类
+      name:string;  //定义类的属性
+      constructor(myname:string){ //定义带参数的构造函数
+          //构造函数 ，是一种特殊的方法。主要用来在创建对象时初始化对象， 即为对象成员变量赋初始值，总与new运算符一起使用在创建对象的语句中。而TypeScript的构造函数用关键字constructor来实现。可以通过this（和java/C#一样代表对象实例的成员访问）关键字来访问当前类体中的属性和方法
+          this.name=myname;
+      }
+       study(){ //定义类的方法
+          document.write("<h1> My name is "+this.name+". I'm study ing...</h1>");
+      }
+       write():string{
+          return "write name:"+this.name+". I'm write ing...";
+      }
+    }
+    var s1=new student("Jim");
+    document.write("<h1>"+s1.name+"</h1>"); //获取name属性
+    s1.study();   // 调用study方法
+    document.write("<h1>"+s1.write()+"</h1>");
+
+
+    //继承
+    //TypeScript中用关键字extends指明继承关系
+    class Animal {  //定义基类
+      name:string;
+      constructor(theName: string) { this.name = theName; }
+       move(meters: number) {
+          document.write(this.name + " moved " + meters + "m.");
+      }
+    }
+    //如果我们要在子类中调用基类中的属性与方法就要使用super关键字
+    class Snake extends Animal { //继承基类
+      constructor(name: string) {
+          super(name); //调用基本类的构造函数
+      }
+       move() { //重写了基类的方法
+        document.write("Slithering...<br>");
+        super.move(5); //调用基类的方法
+      }
+    }
+    var sam = new Snake("Python"); //声明Snake类
+    sam.move();
+    //在TypeScript中我们采用“extends”关键字来表示类的继承关系。在这里你可以看见“Snake”继承“Animal”的子类实现。在实例中也展示如何去重写父类的方法，在这里“Snake”创建了一个“move”方法来重写父类“Animal”的“move”方法，并通过“super”关键字来调用父类的方法。
+
+  </script>
+  <script src="lib/typescript.min.js"></script>
+  <script src="lib/typescript.compile.min.js"></script>
+</body>
+</html>

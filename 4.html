@@ -1,0 +1,119 @@
+<!doc html>
+<html>
+<head>
+  <title>demo</title>
+</head>
+<body>
+  <script type="text/typescript">
+  //接口声明
+    interface LabelledValue { //定义接口
+      label: string;          //定义属性
+    }
+
+    interface LabelledValue {  //定义接口
+      label: string;
+    }
+    function printLabel(labelledObj: LabelledValue) { //定义函数printLabel,其参数类型为接口类型
+      document.write(labelledObj.label);
+    }
+    var myObj = {size: 10, label: "Size 10 Object"}; //定义含有接口中属性的对象
+    printLabel(myObj); //调用函数
+
+
+    //可选属性
+    interface SquareConfig { //定义了两个可选属性
+      color?: string;
+      width?: number;
+    }
+    function createSquare(config: SquareConfig): {color: string; area: number} {//定义函数
+      var newSquare = {color: "white", area: 100};
+      if (config.color) {
+        newSquare.color = config.color;
+      }
+      if (config.width) {
+        newSquare.area = config.width * config.width;
+      }
+      return newSquare;
+    }
+
+    var mySquare = createSquare({color: "black"}); //调用函数，
+    document.write(mySquare.color);   //结果为： black
+    //既然是可选属性，可有可无的，那么为什么还要定义呢?对比起完全不定义，定义可选属性主要是：如果存在属性，能约束类型，而这也是十分关键的
+
+
+    //方法类型
+    //在 TypeScript 中，我们可以使用接口来约束方法的签名
+    interface SearchFunc {
+      (source: string, subString: string): boolean; //定义一个匿名方法
+    }
+    var mySearch: SearchFunc;
+    mySearch = function(source: string, subString: string) {  //实现接口
+      var result = source.search(subString);  //调用系统方法search查找字符串的位置
+      if (result == -1) {
+        return false;
+      }
+      else {
+        return true;
+      }
+    }
+    //上面代码中，我们定义了一个接口，接口内约束了一个方法的签名，这个方法有两个字符串参数，返回布尔值。在第二段代码中我们声明了这个接口的实现。编译器仅仅检查类型是否正确(参数类型、返回值类型)，因此参数的名字我们可以换成别的。
+
+
+    //数组类型
+    //通过接口定义数组类型。在数组类型中有一个“index”类型其描述数组下标的类型，以及返回值类型描述每项的类型
+    interface StringArray { //定义数组接口
+      [index: number]: string;  //每个数组元素的类型
+    }
+    var myArray: StringArray;
+    myArray = ["Bob", "Fred"];
+
+    //在接口的定义里面，索引器的名字一般为 index(当然也可以改成别的，但一般情况下都是保持名字为 index)。索引器的类型只能为 number 或者 string。
+    interface Array{
+      [myindex: number]: number;
+    }
+    interface Dictionary{
+      [index: string]: any;
+    }
+
+
+    //Class类型
+    //C#和java中interface是很常使用的类型系统，其用来强制其实现类符合其契约
+    interface IPrint{
+      print();
+    }
+    class A implements IPrint  { //实现接口
+      print(){  //实现接口中的方法
+          document.write("实现接口");
+      }
+    }
+    var B=new A();
+    B.print();
+
+
+    //接口继承
+    //接口也能继承其他的接口，用关键字“extends”来继承
+    interface Shape {     //定义接口Shape
+        color: string;
+    }
+    interface Square extends Shape {  //继承接口Shape
+        sideLength: number;
+    }
+    //一个interface可以同时继承多个interface，实现多个接口成员的合并。用逗号隔开要继承的接口
+    interface Shape {
+        color: string;
+    }
+
+    interface PenStroke {
+        penWidth: number;
+    }
+
+    interface Square extends Shape, PenStroke {
+        sideLength: number;
+    }
+    //需要注意的是，尽管支持继承多个接口，但是如果继承的接口中，定义的同名属性的类型不同的话，是不能编译通过的。
+
+  </script>
+  <script src="lib/typescript.min.js"></script>
+  <script src="lib/typescript.compile.min.js"></script>
+</body>
+</html>
